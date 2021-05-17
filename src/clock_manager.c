@@ -7,7 +7,6 @@ uint8_t HOURS = 0;
 uint8_t MINUTES = 0;
 uint8_t SECONDS = 0;
 
-uint8_t hoursMod = 10;
 uint8_t SECONDS_VALUES[] = {
     0x00, 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80, 0x90,
     0x01, 0x11, 0x21, 0x31, 0x41, 0x51, 0x61, 0x71, 0x81, 0x91,
@@ -22,8 +21,7 @@ uint8_t HOUR_VALUES[] = {
     0x02, 0x06, 0x0A, 0x0E
 };
 
-uint8_t dummyValue = 0;
-        
+uint8_t dummyValue = 0;        
         
 void CLOCK_MANAGER_Initialize() {
     // reset the BDC ICs
@@ -45,6 +43,11 @@ void CLOCK_MANAGER_IncreaseSeconds(void) {
 //    PORTD = SECONDS_VALUES[SECONDS];
     
     dummyValue++;
+    
+    if (dummyValue == 10) {
+        TRISAbits.TRISA0 = 1;
+    }
+    
     dummyValue %= 30;
     uint8_t s2 = dummyValue % 10;
     uint8_t s1 = dummyValue % 6;

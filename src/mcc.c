@@ -1,20 +1,3 @@
-/**
-  @Generated PIC10 / PIC12 / PIC16 / PIC18 MCUs Source File
-
-  @Summary:
-    This is the mcc.c file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
-
-  @Description:
-    This header file provides implementations for driver APIs for all modules selected in the GUI.
-    Generation Information :
-        Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.81.5
-        Device            :  PIC16F877A
-        Driver Version    :  2.00
-    The generated drivers are tested against the following:
-        Compiler          :  XC8 2.20 and above or later
-        MPLAB             :  MPLAB X 5.40
-*/
-
 #include "mcc.h"
 #include "clock_manager.h"
 
@@ -30,6 +13,9 @@ void ADCON_Enable(void) {
 }
 
 void ADCON_Disable(void) {
+    // A/D converter module is shut-off and consumes no operating current 
     ADCON0bits.ADON = 0;
+    
+    // A/D Port Configuration Control bits, all PORTA pins digital IO
     ADCON1bits.PCFG = 0x06;
 }

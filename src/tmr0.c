@@ -3,6 +3,7 @@
 #include "tmr0.h"
 #include "pin_manager.h"
 #include "clock_manager.h"
+#include "state_manager.h"
 
 uint8_t timerOverflowsCounter = 0;
 
@@ -69,9 +70,13 @@ void TMR0_ISR(void) {
     // add your TMR0 interrupt custom code
     TMR0_WriteTimer(133);
     timerOverflowsCounter++;
+    if (timerOverflowsCounter == 128) {
+        STATE_MANAGER_HandleHalfSecondMark();
+    }
     if (timerOverflowsCounter == 0) {
         // One Second Passed
         D3_LED_Toggle();
+        STATE_MANAGER_HandleFullSecondMark();
         CLOCK_MANAGER_IncreaseSeconds();
     }
 }
