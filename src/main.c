@@ -1,4 +1,5 @@
 #include "mcc.h"
+#include "state_manager.h"
 
 /**
  * For printing in UART console in simulator.
@@ -37,7 +38,7 @@ void main(void)
 
     // Disable the Peripheral Interrupts
     //INTERRUPT_PeripheralInterruptDisable();
-
+    
     init_uart();
     
     while (1) {

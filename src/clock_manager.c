@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "clock_manager.h"
+#include "state_manager.h"
 
 uint8_t HOURS = 0;
 uint8_t MINUTES = 0;
@@ -40,27 +41,13 @@ void CLOCK_MANAGER_IncreaseSeconds(void) {
     if (SECONDS == 0) {
         CLOCK_MANAGER_IncreaseMinutes();
     }
-//    PORTD = SECONDS_VALUES[SECONDS];
+    PORTD = SECONDS_VALUES[SECONDS];
     
     dummyValue++;
-    
-    if (dummyValue == 10) {
-        TRISAbits.TRISA0 = 1;
-    }
-    
     dummyValue %= 30;
-    uint8_t s2 = dummyValue % 10;
-    uint8_t s1 = dummyValue % 6;
-    uint8_t h2 = dummyValue % 10;
-    uint8_t h1 = dummyValue % 3;
-    uint8_t portAValue = h2 << 2;
-    portAValue += h1;
-    uint8_t portBValue = s2 << 4;
-    portBValue += s1;
-    
-    PORTA = portAValue;
-    PORTB = portBValue;
-    PORTD = portBValue;
+    if (dummyValue % 10 == 0) {
+        STATE_MANAGER_HandleButton1Press();
+    }
     
     printf("%02d:%02d:%02d\n", HOURS, MINUTES, SECONDS);
 }
@@ -73,12 +60,12 @@ void CLOCK_MANAGER_IncreaseMinutes(void) {
         CLOCK_MANAGER_IncreaseHours();
     }
     
-//    PORTB = SECONDS_VALUES[MINUTES];
+    PORTB = SECONDS_VALUES[MINUTES];
 }
 
 void CLOCK_MANAGER_IncreaseHours(void) {
     HOURS++;
     HOURS %= 24;
     
-//    PORTA = HOUR_VALUES[HOURS];
+    PORTA = HOUR_VALUES[HOURS];
 }

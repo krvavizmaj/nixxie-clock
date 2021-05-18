@@ -1,4 +1,4 @@
-#ifndef STATE_MANATER_H
+#ifndef STATE_MANAGER_H
 #define	STATE_MANAGER_H
 
 #include <xc.h> // include processor files - each processor file is guarded.  
@@ -6,6 +6,8 @@
 // states of the clock
 #define SHOWING_TIME    0x00
 #define SETTING_TIME    0x01
+
+void STATE_MANAGER_Init(void);
 
 void STATE_MANAGER_HandleHalfSecondMark(void);
 
