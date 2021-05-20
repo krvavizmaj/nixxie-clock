@@ -9,11 +9,11 @@
 
 void CLOCK_MANAGER_Initialize(void);
 
-void CLOCK_MANAGER_IncreaseSeconds(void);
+void CLOCK_MANAGER_IncreaseSeconds(uint8_t amount);
 
-void CLOCK_MANAGER_IncreaseMinutes(void);
+void CLOCK_MANAGER_IncreaseMinutes(uint8_t amount);
 
-void CLOCK_MANAGER_IncreaseHours(void);
+void CLOCK_MANAGER_IncreaseHours(uint8_t amount);
 
 #endif	/* CLOCK_MANAGER_H */
 

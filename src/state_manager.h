@@ -7,7 +7,7 @@
 #define SHOWING_TIME    0x00
 #define SETTING_TIME    0x01
 
-void STATE_MANAGER_Init(void);
+void STATE_MANAGER_Initialize(void);
 
 void STATE_MANAGER_HandleHalfSecondMark(void);
 

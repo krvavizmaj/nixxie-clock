@@ -1,13 +1,16 @@
 #include "mcc.h"
 #include "clock_manager.h"
 #include "state_manager.h"
+#include "buttons_manager.h"
+
 
 void SYSTEM_Initialize(void) {
     PIN_MANAGER_Initialize();
     ADCON_Disable();            
     TMR0_Initialize();
     CLOCK_MANAGER_Initialize();
-    STATE_MANAGER_Init();
+    STATE_MANAGER_Initialize();
+    BUTTONS_MANAGER_Initialize();
 }
 
 void ADCON_Enable(void) {

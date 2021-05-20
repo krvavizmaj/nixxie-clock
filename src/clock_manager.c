@@ -34,37 +34,31 @@ void CLOCK_MANAGER_Initialize() {
     PORTD = 0x00;
 }
 
-void CLOCK_MANAGER_IncreaseSeconds(void) {
-    SECONDS++;
+void CLOCK_MANAGER_IncreaseSeconds(uint8_t amount) {
+    SECONDS += amount;
     SECONDS %= 60;
     
     if (SECONDS == 0) {
-        CLOCK_MANAGER_IncreaseMinutes();
+        CLOCK_MANAGER_IncreaseMinutes(1);
     }
     PORTD = SECONDS_VALUES[SECONDS];
-    
-    dummyValue++;
-    dummyValue %= 30;
-    if (dummyValue % 10 == 0) {
-        STATE_MANAGER_HandleButton1Press();
-    }
     
     printf("%02d:%02d:%02d\n", HOURS, MINUTES, SECONDS);
 }
 
-void CLOCK_MANAGER_IncreaseMinutes(void) {
-    MINUTES++;
+void CLOCK_MANAGER_IncreaseMinutes(uint8_t amount) {
+    MINUTES += amount;
     MINUTES %= 60;
     
     if (MINUTES == 0) {
-        CLOCK_MANAGER_IncreaseHours();
+        CLOCK_MANAGER_IncreaseHours(1);
     }
     
     PORTB = SECONDS_VALUES[MINUTES];
 }
 
-void CLOCK_MANAGER_IncreaseHours(void) {
-    HOURS++;
+void CLOCK_MANAGER_IncreaseHours(uint8_t amount) {
+    HOURS += amount;
     HOURS %= 24;
     
     PORTA = HOUR_VALUES[HOURS];

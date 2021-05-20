@@ -4,8 +4,10 @@
 #include "pin_manager.h"
 #include "clock_manager.h"
 #include "state_manager.h"
+#include "buttons_manager.h"
 
 uint8_t timerOverflowsCounter = 0;
+int i;
 
 void (*TMR0_InterruptHandler)(void);
 
@@ -61,6 +63,25 @@ void TMR0_WriteTimer(uint8_t timerVal) {
  * After counting 256 overflows, 1 second should have passed (256 * 4000 = 1024000 * 4 (internal divider) = crystal frequency)
  */
 void TMR0_ISR(void) {
+    // timer tuner
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    
+    
     // clear the TMR0 interrupt flag
     INTCONbits.TMR0IF = 0;
     if (TMR0_InterruptHandler) {
@@ -68,16 +89,24 @@ void TMR0_ISR(void) {
     }
 
     // add your TMR0 interrupt custom code
-    TMR0_WriteTimer(133);
+    TMR0_WriteTimer(134);
     timerOverflowsCounter++;
+    
+    // update input buttons state
+    BUTTONS_MANAGER_TimerOverflowHandler();
+    
     if (timerOverflowsCounter == 128) {
+        // Half Second Passed
         STATE_MANAGER_HandleHalfSecondMark();
     }
+    
     if (timerOverflowsCounter == 0) {
         // One Second Passed
-        D3_LED_Toggle();
+//        D3_LED_Toggle();
+        i++;
+        i++;
+        CLOCK_MANAGER_IncreaseSeconds(1);
         STATE_MANAGER_HandleFullSecondMark();
-        CLOCK_MANAGER_IncreaseSeconds();
     }
 }
 

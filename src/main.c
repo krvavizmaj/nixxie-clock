@@ -1,5 +1,6 @@
 #include "mcc.h"
 #include "state_manager.h"
+#include "buttons_manager.h"
 
 /**
  * For printing in UART console in simulator.
@@ -18,6 +19,10 @@ void putch(unsigned char data) {
         continue;
     TXREG = data;                     // send one character
 }
+
+bool button1Pressed;
+bool button1PressHandled;
+bool button1PressTimeout;
 
 void main(void)
 {
@@ -42,8 +47,18 @@ void main(void)
     init_uart();
     
     while (1) {
-        // Add your application code
-//        D3_LED_Toggle();
+        // wait for button press
+        BUTTONS_MANAGER_UpdateButtonsState(BUTTON1);
+        if (BUTTONS_MANAGER_GetButtonState(BUTTON1) == BUTTON_DEBOUNCED) {
+            STATE_MANAGER_HandleButton1Press();
+            BUTTONS_MANAGER_ButtonPressHandled(BUTTON1);
+        }
+        
+//        BUTTONS_MANAGER_UpdateButtonsState(BUTTON2);
+//        if (BUTTONS_MANAGER_GetButtonState(BUTTON2) == BUTTON_DEBOUNCED) {
+//            STATE_MANAGER_HandleButton2Press();
+//            BUTTONS_MANAGER_ButtonPressHandled(BUTTON2);
+//        }
     }
     
 }
