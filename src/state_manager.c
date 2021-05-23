@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "state_manager.h"
+#include "clock_manager.h"
 
 uint8_t STATE = SHOWING_TIME;
 
@@ -61,8 +62,24 @@ void STATE_MANAGER_HandleButton1Press(void) {
 void STATE_MANAGER_HandleButton2Press(void) {
     if (STATE == SETTING_TIME) {
         // increase digit SETTING_DIGIT and set to PORTx register
-        if (SETTING_DIGIT < 4) {
-            
+        switch (SETTING_DIGIT) {
+            case 0:
+                CLOCK_MANAGER_IncreaseHours(10);
+                break;
+            case 1:
+                CLOCK_MANAGER_IncreaseHours(1);
+                break;
+            case 2:
+                CLOCK_MANAGER_IncreaseMinutes(10);
+                break;
+            case 3:
+                CLOCK_MANAGER_IncreaseMinutes(1);
+                break;
+            case 4:
+                CLOCK_MANAGER_ResetSeconds();
+                break;
+            default:
+                break;
         }
     }
 }

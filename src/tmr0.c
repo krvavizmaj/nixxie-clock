@@ -67,19 +67,11 @@ void TMR0_ISR(void) {
     NOP();
     NOP();
     NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    NOP();
+    if (timerOverflowsCounter < 64) {
+        NOP();
+        NOP();
+        NOP();
+    }
     
     
     // clear the TMR0 interrupt flag
@@ -102,9 +94,6 @@ void TMR0_ISR(void) {
     
     if (timerOverflowsCounter == 0) {
         // One Second Passed
-//        D3_LED_Toggle();
-        i++;
-        i++;
         CLOCK_MANAGER_IncreaseSeconds(1);
         STATE_MANAGER_HandleFullSecondMark();
     }

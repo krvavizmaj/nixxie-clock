@@ -34,6 +34,10 @@ void CLOCK_MANAGER_Initialize() {
     PORTD = 0x00;
 }
 
+void CLOCK_MANAGER_ResetSeconds(void) {
+    SECONDS = 0;
+}
+
 void CLOCK_MANAGER_IncreaseSeconds(uint8_t amount) {
     SECONDS += amount;
     SECONDS %= 60;

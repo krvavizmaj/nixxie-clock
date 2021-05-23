@@ -54,11 +54,11 @@ void main(void)
             BUTTONS_MANAGER_ButtonPressHandled(BUTTON1);
         }
         
-//        BUTTONS_MANAGER_UpdateButtonsState(BUTTON2);
-//        if (BUTTONS_MANAGER_GetButtonState(BUTTON2) == BUTTON_DEBOUNCED) {
-//            STATE_MANAGER_HandleButton2Press();
-//            BUTTONS_MANAGER_ButtonPressHandled(BUTTON2);
-//        }
+        BUTTONS_MANAGER_UpdateButtonsState(BUTTON2);
+        if (BUTTONS_MANAGER_GetButtonState(BUTTON2) == BUTTON_DEBOUNCED) {
+            STATE_MANAGER_HandleButton2Press();
+            BUTTONS_MANAGER_ButtonPressHandled(BUTTON2);
+        }
     }
     
 }

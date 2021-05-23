@@ -9,6 +9,8 @@
 
 void CLOCK_MANAGER_Initialize(void);
 
+void CLOCK_MANAGER_ResetSeconds(void);
+
 void CLOCK_MANAGER_IncreaseSeconds(uint8_t amount);
 
 void CLOCK_MANAGER_IncreaseMinutes(uint8_t amount);
