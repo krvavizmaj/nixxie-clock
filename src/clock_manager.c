@@ -22,7 +22,8 @@ uint8_t HOUR_VALUES[] = {
     0x02, 0x06, 0x0A, 0x0E
 };
 
-uint8_t dummyValue = 0;        
+uint8_t minutesToAdd = 0;        
+uint8_t hoursToAdd = 0;        
         
 void CLOCK_MANAGER_Initialize() {
     // reset the BDC ICs
@@ -40,30 +41,35 @@ void CLOCK_MANAGER_ResetSeconds(void) {
 
 void CLOCK_MANAGER_IncreaseSeconds(uint8_t amount) {
     SECONDS += amount;
-    SECONDS %= 60;
+    minutesToAdd = SECONDS / 60;
     
-    if (SECONDS == 0) {
-        CLOCK_MANAGER_IncreaseMinutes(1);
+    if (SECONDS == 60) {
+        SECONDS = 0; 
     }
     PORTD = SECONDS_VALUES[SECONDS];
     
-    printf("%02d:%02d:%02d\n", HOURS, MINUTES, SECONDS);
+    CLOCK_MANAGER_IncreaseMinutes(minutesToAdd);
+    
+//    printf("%02d:%02d:%02d\n", HOURS, MINUTES, SECONDS);
 }
 
 void CLOCK_MANAGER_IncreaseMinutes(uint8_t amount) {
     MINUTES += amount;
-    MINUTES %= 60;
+    hoursToAdd = MINUTES / 60;
     
-    if (MINUTES == 0) {
-        CLOCK_MANAGER_IncreaseHours(1);
+    if (MINUTES == 60) {
+        MINUTES = 0; 
     }
-    
     PORTB = SECONDS_VALUES[MINUTES];
+    
+    CLOCK_MANAGER_IncreaseHours(hoursToAdd);
 }
 
 void CLOCK_MANAGER_IncreaseHours(uint8_t amount) {
     HOURS += amount;
-    HOURS %= 24;
+    if (HOURS == 24) {
+        HOURS = 0;
+    }
     
     PORTA = HOUR_VALUES[HOURS];
 }

@@ -4,7 +4,7 @@
 #include "state_manager.h"
 #include "clock_manager.h"
 
-uint8_t STATE = SHOWING_TIME;
+uint8_t STATE;
 
 int *PORTS_TO_DIGIT[5];
 uint8_t DIGIT_PORT_MASK[] = {0x03, 0x3C, 0x0F, 0xF0, 0xFF};
@@ -21,6 +21,8 @@ uint8_t SETTING_DIGIT_MOD[] = {0x03, 0xA0, 0x06, 0xA0};
 uint8_t SETTING_DIGIT = 0;
 
 void STATE_MANAGER_Initialize() {
+    STATE = SHOWING_TIME;
+    
     PORTS_TO_DIGIT[0] = &TRISA;
     PORTS_TO_DIGIT[1] = &TRISA;
     PORTS_TO_DIGIT[2] = &TRISB; 

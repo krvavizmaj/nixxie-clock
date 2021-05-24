@@ -22,12 +22,6 @@ void TMR0_WriteTimer(uint8_t timerVal);
 
 void TMR0_ISR(void);
 
-void TMR0_SetInterruptHandler(void (* InterruptHandler)(void));
-
-extern void (*TMR0_InterruptHandler)(void);
-
-void TMR0_DefaultInterruptHandler(void);
-
 #ifdef __cplusplus  // Provide C++ Compatibility
 
     }

@@ -9,8 +9,6 @@
 uint8_t timerOverflowsCounter = 0;
 int i;
 
-void (*TMR0_InterruptHandler)(void);
-
 void TMR0_Initialize(void) {
     // Set TMR0 to the options selected in the User Interface
 
@@ -20,17 +18,14 @@ void TMR0_Initialize(void) {
     // Prescaler is assigned to the Timer0 module
     OPTION_REGbits.PSA = 0;
     
-    // Prescaler 1:32
-    OPTION_REGbits.PS = 0x04;
+    // Prescaler 1:64
+    OPTION_REGbits.PS = 0x05;
     
     // Clear Interrupt flag before enabling the interrupt
     INTCONbits.TMR0IF = 0;
 
     // Enabling TMR0 interrupt.
     INTCONbits.TMR0IE = 1;
-
-    // Set Default Interrupt Handler
-    TMR0_SetInterruptHandler(TMR0_DefaultInterruptHandler);
 }
 
 void TMR0_EnableTimer(void) {
@@ -58,52 +53,35 @@ void TMR0_WriteTimer(uint8_t timerVal) {
 }
 
 /**
- * When TMR0 overflows, the value is set to 131.
- * That would make (256-131) = 125 cycles * 32 prescaler = 4000 cycles per overflow
- * After counting 256 overflows, 1 second should have passed (256 * 4000 = 1024000 * 4 (internal divider) = crystal frequency)
+ * When TMR0 overflows, the value is set to 6.
+ * That would make (256-6) = 250 cycles * 64 prescaler = 16000 cycles per overflow
+ * After counting 64 overflows, 1 second should have passed (64 * 16000 = 1024000 * 4 (internal divider) = crystal frequency)
  */
 void TMR0_ISR(void) {
     // timer tuner
-    NOP();
-    NOP();
-    NOP();
-    if (timerOverflowsCounter < 64) {
-        NOP();
-        NOP();
-        NOP();
-    }
+    NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP();
+    NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP();
+    NOP(); NOP();
     
-    
+    TMR0_WriteTimer(7);
     // clear the TMR0 interrupt flag
     INTCONbits.TMR0IF = 0;
-    if (TMR0_InterruptHandler) {
-        TMR0_InterruptHandler();
-    }
-
+    
     // add your TMR0 interrupt custom code
-    TMR0_WriteTimer(134);
     timerOverflowsCounter++;
     
     // update input buttons state
     BUTTONS_MANAGER_TimerOverflowHandler();
     
-    if (timerOverflowsCounter == 128) {
+    if (timerOverflowsCounter == 32) {
         // Half Second Passed
         STATE_MANAGER_HandleHalfSecondMark();
     }
     
-    if (timerOverflowsCounter == 0) {
+    if (timerOverflowsCounter == 64) {
         // One Second Passed
+        timerOverflowsCounter = 0;
         CLOCK_MANAGER_IncreaseSeconds(1);
         STATE_MANAGER_HandleFullSecondMark();
     }
-}
-
-void TMR0_SetInterruptHandler(void (* InterruptHandler)(void)){
-    TMR0_InterruptHandler = InterruptHandler;
-}
-
-void TMR0_DefaultInterruptHandler(void){
-    // add your TMR0 interrupt custom code
-    // or set custom function using TMR0_SetInterruptHandler()
 }
