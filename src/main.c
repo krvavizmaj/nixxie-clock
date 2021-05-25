@@ -20,10 +20,6 @@ void putch(unsigned char data) {
     TXREG = data;                     // send one character
 }
 
-bool button1Pressed;
-bool button1PressHandled;
-bool button1PressTimeout;
-
 void main(void)
 {
     // initialize the device

@@ -26,7 +26,6 @@
       <itemPath>src/main.c</itemPath>
       <itemPath>src/mcc.c</itemPath>
       <itemPath>src/pin_manager.c</itemPath>
-      <itemPath>src/test_main.c.c</itemPath>
       <itemPath>src/tmr0.c</itemPath>
       <itemPath>src/state_manager.c</itemPath>
       <itemPath>src/buttons_manager.c</itemPath>

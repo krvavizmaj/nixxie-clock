@@ -7,11 +7,8 @@
 #include "buttons_manager.h"
 
 uint8_t timerOverflowsCounter = 0;
-int i;
 
 void TMR0_Initialize(void) {
-    // Set TMR0 to the options selected in the User Interface
-
     // TMR0 Clock Source Select bit; Internal instruction cycle clock (CLKO)
     OPTION_REGbits.T0CS = 0;
     
